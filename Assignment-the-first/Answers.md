@@ -21,7 +21,9 @@
 ## Part 2
 1. Define the problem
 ```The purpose of this file is to daigram out how to de-multiplex 4 fastq files.
-given four input FASTQ files (2 with biological reads, 2 with index reads) and the 24 known indexes above, demultiplex reads by index-pair...```
+given four input FASTQ files (2 with biological reads, 2 with index reads) and the 24 known indexes above, demultiplex reads by index-pair...
+```
+
 2. Describe output
 ```...one R1 FASTQ file and one R2 FASTQ file per matching index-pair,
 another two FASTQ files for non-matching index-pairs (index-hopping), and
@@ -29,7 +31,8 @@ two additional FASTQ files when one or both index reads are unknown or low quali
 algorithm should report:
 the number of read-pairs with properly matched indexes (per index-pair),
 the number of read pairs with index-hopping observed, and
-the number of read-pairs with unknown index(es).```
+the number of read-pairs with unknown index(es).
+```
 3. Upload your [4 input FASTQ files](../TEST-input_FASTQ) and your [>=6 expected output FASTQ files](../TEST-output_FASTQ).
 4. Pseudocode
 5. High level functions. For each function, be sure to include:
