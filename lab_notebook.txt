@@ -1,0 +1,48 @@
+Demultiplex
+Bailey Knight
+27 July, 2023
+
+Purpose of this assignment is to demultiplex samples in the same lane of a sequecig run using their barcodes.
+
+Part1.1: Data exploration
+Purpose 1 of data exploration is to understand what files are what?
+====================================================================================================
+zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R1_001.fastq.gz | head -10
+#this is file read 1 with sequences
+zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R2_001.fastq.gz | head -10
+#this is file  read 2 with index 1s
+zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R3_001.fastq.gz | head -10
+#This is file read 3 with index 2s
+zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R4_001.fastq.gz | head -10
+#this is file read 4 with sequences
+====================================================================================================
+
+Determine the length of the reads in each file:
+====================================================================================================
+zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R4_001.fastq.gz | head -2 | wc -L
+answer - 101 characters
+
+====================================================================================================
+Determine the phred encoding for these data:
+
+====================================================================================================
+
+zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R4_001.fastq.gz | sed -n '4~4p' | head -1
+#AAFAFJJ-----F---7-<FA-F<AFFA-JJJ77<FJFJFJJJJJJJJJJAFJFFAJJJJJJJJFJF7-AFFJJ7F7JFJJFJ7FFF--A<A7<-A-7--
+no # in phred 64 therefore phred 33
+====================================================================================================
+Part1.2-develop a python script to calculate the and do the following:
+Generate a per base distribution of quality scores for read1, read2, index1, and index2. 
+Average the quality scores at each position for all reads and generate a per nucleotide mean 
+distribution as you did in part 1 of PS4 in Bi621. (NOTE! Do NOT use the 2D array strategy from PS9 
+- you WILL run out of memory!)
+Turn in the 4 histograms.
+
+What is a good quality score cutoff for index reads and biological read pairs to utilize for sample 
+identification and downstream analysis, respectively? Justify your answer.
+
+How many indexes have undetermined (N) base calls? 
+(Utilize your command line tool knowledge. Submit the command(s) you used. 
+CHALLENGE: use a one-line command)
+
+

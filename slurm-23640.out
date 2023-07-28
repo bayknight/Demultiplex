@@ -1,0 +1,27 @@
+read length = 8
+start python script
+[11243388775.0, 11078678185.0, 12366673325.0, 12774966970.0, 12825577810.0, 13982372351.0, 13602554915.0, 13765312258.0]
+[30.952484060180197, 30.499044086383872, 34.044829955594786, 35.16884183418744, 35.30817093235539, 38.49276814834963, 37.44714984155329, 37.89521262455394]
+	Command being timed: "./mean_qscore.py -f /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R3_001.fastq.gz -l 8"
+	User time (seconds): 754.17
+	System time (seconds): 1.70
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 12:37.24
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 72280
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 47557
+	Voluntary context switches: 857
+	Involuntary context switches: 108354
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

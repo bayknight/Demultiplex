@@ -13,6 +13,10 @@ fastq1: read1
 fastq2: index1
 fastq3: index2
 fastq4: read2
+Need to return 52 total files at the end
+48 index files 1 of each index for Read 1 and read 4.
+2 hopped 1 of each read 1 and read 4
+2 unknown 1 of each read 1 and read 4
 ```
 
 Create a dictionary of keys as indices and keys that map to the hop files and unknown index files
@@ -42,7 +46,7 @@ Iterate through the dictionary keys to open all files using while loop
                use tuple as key to count frequency of index hopping
                write them to read 1 and read 2 index hopping files.
                increase count of tuples by 1
-
+co
 ```
 functions needed:
 ``````
