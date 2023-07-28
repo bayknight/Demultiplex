@@ -25,7 +25,8 @@ given four input FASTQ files (2 with biological reads, 2 with index reads) and t
 ```
 
 2. Describe output
-```...one R1 FASTQ file and one R2 FASTQ file per matching index-pair,
+```
+...one R1 FASTQ file and one R2 FASTQ file per matching index-pair,
 another two FASTQ files for non-matching index-pairs (index-hopping), and
 two additional FASTQ files when one or both index reads are unknown or low quality (do not match the 24 known indexes [this includes indexes with 'N's in them] or do not meet a quality score cutoff)
 algorithm should report:
