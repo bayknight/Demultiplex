@@ -12,12 +12,24 @@
 
 2. Per-base NT distribution
     1. Use markdown to insert your 4 histograms here.
-    2. **YOUR ANSWER HERE**
-    3. **YOUR ANSWER HERE**
+    2. [../1294_S1_L008_R1_001.fastq.gz_hist.png](../1294_S1_L008_R1_001.fastq.gz_hist.png)
+    3. [../1294_S1_L008_R2_001.fastq.gz_hist.png](../1294_S1_L008_R2_001.fastq.gz_hist.png)
+    4. [../1294_S1_L008_R3_001.fastq.gz_hist.png](../1294_S1_L008_R3_001.fastq.gz_hist.png)
+    5. [../1294_S1_L008_R4_001.fastq.gz_hist.png](../1294_S1_L008_R4_001.fastq.gz_hist.png)
+    
     
 ## Part 2
 1. Define the problem
+```The purpose of this file is to daigram out how to de-multiplex 4 fastq files.
+given four input FASTQ files (2 with biological reads, 2 with index reads) and the 24 known indexes above, demultiplex reads by index-pair...```
 2. Describe output
+```...one R1 FASTQ file and one R2 FASTQ file per matching index-pair,
+another two FASTQ files for non-matching index-pairs (index-hopping), and
+two additional FASTQ files when one or both index reads are unknown or low quality (do not match the 24 known indexes [this includes indexes with 'N's in them] or do not meet a quality score cutoff)
+algorithm should report:
+the number of read-pairs with properly matched indexes (per index-pair),
+the number of read pairs with index-hopping observed, and
+the number of read-pairs with unknown index(es).```
 3. Upload your [4 input FASTQ files](../TEST-input_FASTQ) and your [>=6 expected output FASTQ files](../TEST-output_FASTQ).
 4. Pseudocode
 5. High level functions. For each function, be sure to include:
