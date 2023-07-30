@@ -5,7 +5,7 @@
 #SBATCH --mem=16GB                        #optional: amount of memory, default is 4GB may need to change stuff
 
 
-#example run sbatch ./runpy.sh TEST-input_FASTQ/unit_testR1.fq 
+#example run sbatch ../runpy.sh ../TEST-input_FASTQ/unit_testR1.fq 
 set -e
 
 filename=$1
