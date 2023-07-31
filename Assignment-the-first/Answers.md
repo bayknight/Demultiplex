@@ -1,7 +1,7 @@
 # Assignment the First
 
 ## Part 1
-1. Be sure to upload your Python script. Provide a link to it here:
+1. Be sure to upload your Python script. Provide a link to it here: [../mean_qscore.py](../mean_qscore.py)
 
 | File name | label | Read length | Phred encoding |
 |---|---|---|---|
@@ -10,14 +10,32 @@
 | 1294_S1_L008_R3_001.fastq.gz |read2|101|phred33+|
 | 1294_S1_L008_R4_001.fastq.gz |index2|101|phred33+|
 
+```
+commands used:
+zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R2_001.fastq.gz | head -10
+zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R4_001.fastq.gz | head -2 | wc -L
+zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R4_001.fastq.gz | sed -n '4~4p' | head -1
+```
 2. Per-base NT distribution
-    1. Use markdown to insert your 4 histograms here.
-    2. [../1294_S1_L008_R1_001.fastq.gz_hist.png](../1294_S1_L008_R1_001.fastq.gz_hist.png)
-    3. [../1294_S1_L008_R2_001.fastq.gz_hist.png](../1294_S1_L008_R2_001.fastq.gz_hist.png)
-    4. [../1294_S1_L008_R3_001.fastq.gz_hist.png](../1294_S1_L008_R3_001.fastq.gz_hist.png)
-    5. [../1294_S1_L008_R4_001.fastq.gz_hist.png](../1294_S1_L008_R4_001.fastq.gz_hist.png)
-    
-    
+    1. ![Alt text](1294_S1_L008_R1_001.fastq.gz_hist.png)
+    2. ![Alt text](1294_S1_L008_R2_001.fastq.gz_hist.png)
+    3. ![Alt text](1294_S1_L008_R3_001.fastq.gz_hist.png)
+    4. ![Alt text](1294_S1_L008_R4_001.fastq.gz_hist.png)
+    s
+3. Qscore cutoff:
+```
+I would choose the cutoff of 30 because that means there every 1 in 1000 base pairs will be incorrect. I think having enough coverage could overcome this error rate depsite the fact 1 error in every 1000 is actually a large number of errors given the amount of base pairs that are read.
+```
+4. Ns in indexes: R2- R3-
+```
+zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R2_001.fastq.gz | sed -n '2~4p' | 
+grep 'N' | wc -l
+zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R3_001.fastq.gz | sed -n '2~4p' | 
+grep 'N' | wc -l
+
+```
+
+
 ## Part 2
 1. Define the problem
 ```The purpose of this file is to daigram out how to de-multiplex 4 fastq files.
