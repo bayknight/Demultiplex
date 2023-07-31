@@ -40,7 +40,8 @@ grep 'N' | wc -l
 
 ## Part 2
 1. Define the problem
-```The purpose of this file is to daigram out how to de-multiplex 4 fastq files.
+```
+The purpose of this file is to daigram out how to de-multiplex 4 fastq files.
 given four input FASTQ files (2 with biological reads, 2 with index reads) and the 24 known indexes above, demultiplex reads by index-pair...
 ```
 
