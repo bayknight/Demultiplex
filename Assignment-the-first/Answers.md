@@ -28,7 +28,7 @@ I would choose the cutoff of 30 because that means there every 1 in 1000 base pa
 I think having enough coverage could overcome this error rate depsite the fact 1 error in every 1000
 is actually a large number of errors given the amount of base pairs that are read.
 ```
-4. Ns in indexes: R2- R3-
+4. Ns in indexes: R2-3976613   R3-3328051
 ```
 zcat /projects/bgmp/shared/2017_sequencing/1294_S1_L008_R2_001.fastq.gz | sed -n '2~4p' | 
 grep 'N' | wc -l
