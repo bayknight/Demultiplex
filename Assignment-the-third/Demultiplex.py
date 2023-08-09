@@ -74,9 +74,11 @@ if __name__ == '__main__':
 
     hopped_dict = {}
     matched_dict = {}
-    unknown_count = 0
+    unknown_dict = {}
     #iterate through the 4 input fastq files
     with gzip.open(file_1, 'rt') as r1, gzip.open(file_2, 'rt') as r2, gzip.open(file_3, 'rt') as r3, gzip.open(file_4, 'rt') as r4:
+        
+        total=0
         while True:
             #generate lists to hold record lines
             r1_list, r2_list, r3_list, r4_list =[], [], [], []
@@ -114,11 +116,16 @@ if __name__ == '__main__':
             #print(r4_list)
             index = r2_list[1]
             reverse_comp = rev_comp(r3_list[1])
-            
+            #add in qscore filtering if needed right here
+
             if index not in index_set or reverse_comp not in index_set:
                 U1.write(f'{r1_list[0]} {index}:{reverse_comp}\n{r1_list[1]}\n{r1_list[2]}\n{r1_list[3]}\n')
                 U2.write(f'{r4_list[0]} {index}:{reverse_comp}\n{r4_list[1]}\n{r4_list[2]}\n{r4_list[3]}\n')
-                unknown_count+=1
+                key = (index, reverse_comp)
+                if key in unknown_dict:
+                    unknown_dict[key]+=1
+                else:
+                    unknown_dict[key]=1
             
             elif index == reverse_comp:
                 fhandles[index][0].write(f'{r1_list[0]} {index}:{reverse_comp}\n{r1_list[1]}\n{r1_list[2]}\n{r1_list[3]}\n')
@@ -137,14 +144,42 @@ if __name__ == '__main__':
                 else:
                     hopped_dict[key]=1
             
-
-             
+            total+=1
             
                 
     for key in fhandles:
         fhandles[key][0].close()
         fhandles[key][1].close()
-            
-    print(matched_dict)
-    print(hopped_dict)
-    print(unknown_count)
+
+    matched_pairs = sum(matched_dict.values())
+    unknown_pairs = sum(unknown_dict.values())
+    hopped_pairs = sum(hopped_dict.values())
+    percent_matched = matched_pairs/total*100
+    percent_unknown = unknown_pairs/total*100
+    percent_hopped = hopped_pairs /total*100
+   
+    
+    index_total_freq = {}
+    hopped_total_freq = {}
+    for key in matched_dict:
+        index_total_freq[key] = (matched_dict[key], (matched_dict[key]/matched_pairs*100), (matched_dict[key]/total*100))
+    
+    for key in hopped_dict:
+        hopped_total_freq[key] = (hopped_dict[key], (hopped_dict[key]/hopped_pairs*100), (hopped_dict[key]/total*100))
+
+
+
+    with open('report_demultiplex.md', 'w') as fhw:
+        fhw.write(f'Run Report<br>Files Used to Generate Report:<br>{file_1}<br>{file_2}<br>{file_3}<br>{file_4}<br>')
+        fhw.write('Run Summary:\n```\n')
+        fhw.write(f'Total Read Pairs: {total} (100%)\nMatched Index Pairs: {matched_pairs} ({percent_matched}%)\nHopped Index Pairs: {hopped_pairs} ({percent_hopped}%)\nUnknown Index Pairs: {unknown_pairs} ({percent_unknown}%)\n')
+        fhw.write('```\n')
+        fhw.write('\n| Index Pairs | Frequency | Percent of Matched Pairs | Percent Matched Pairs of Total Reads |  \n')
+        fhw.write('|---|---|---|---|  \n')
+        for key in index_total_freq:
+            fhw.write(f'|{key}|{index_total_freq[key][0]}|{index_total_freq[key][1]}|{index_total_freq[key][2]}|  \n')
+        fhw.write('\n\n\n')
+        fhw.write('| Hopped Index Pairs | Frequency | Percent of Total Hopped Pairs | Percent Index Hops of Total Reads |  \n')
+        fhw.write('|---|---|---|---|  \n')
+        for key in hopped_total_freq:
+            fhw.write(f'|{key}|{hopped_total_freq[key][0]}|{hopped_total_freq[key][1]}|{hopped_total_freq[key][2]}|  \n')
