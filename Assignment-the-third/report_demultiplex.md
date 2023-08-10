@@ -1,4 +1,10 @@
 Run Report<br>Files Used to Generate Report:<br>/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R1_001.fastq.gz<br>/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R2_001.fastq.gz<br>/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R3_001.fastq.gz<br>/projects/bgmp/shared/2017_sequencing/1294_S1_L008_R4_001.fastq.gz<br>Run Summary:
+
+Discussion:<br>
+The only filter used here was a filter of 2 considering only samples with an "N" in the sequence were filtered out<br>
+It is interesting 21% of matched reads came from one index pair, "TACCGGAT" and 12% from "TCTTCGAC". Matched pairs <br> displayed below are displayed as one sequence of the pair since they are matched but files written appended header <br> to the format "AAAAAA-AAAAAA". These samples could be contain more DNA in general than the others leading to more reads, <br> but unsure of the likelihood of this. It could be useful to add more quality filtering and split the data into more<br> buckets than the three shown below. The percentage of hopped index pairs doesnt seem too high, but I think adding an <br> evaluator to check if the indexes are still matched to index set regardless of containing an "N" would provide more <br> clarity on this data. Since "N" automatically buckets the reads to unknown, likely a large portion of data that could <br> be used was lost. These "Ns" could also contribute to the bias we see if certain indexes were more likely to contain an "N".
+
+
 ```
 Total Read Pairs: 363246735 (100%)
 Matched Index Pairs: 331755033 (91.33049275721639%)

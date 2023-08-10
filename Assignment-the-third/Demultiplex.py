@@ -24,7 +24,7 @@ def get_args():
 
 nt_dict = {'A':'T', 'T':'A', 'C':'G', 'G':'C', 'N':'N'}
 
-def rev_comp(seq: str):
+def rev_comp(seq, nt_dict):
     seq = seq[::-1]
     reverse_comp = ''
     for char in seq:
@@ -32,8 +32,12 @@ def rev_comp(seq: str):
             reverse_comp += nt_dict[char]
     return reverse_comp
 
-
-
+def fastq_record(filehandle):
+    header = filehandle.readline().strip()
+    seq = filehandle.readline().strip()
+    line3 = filehandle.readline().strip()
+    quality_scores = filehandle.readline().strip()
+    return [header, seq, line3, quality_scores]
 
 if __name__ == '__main__':
     
@@ -81,43 +85,22 @@ if __name__ == '__main__':
         total=0
         while True:
             #generate lists to hold record lines
-            r1_list, r2_list, r3_list, r4_list =[], [], [], []
             
-            r1_line1 =r1.readline().strip()
-            r2_line1 =r2.readline().strip()
-            r3_line1 =r3.readline().strip()
-            r4_line1 =r4.readline().strip()
-            if r1_line1 == '':
+            r1_list, r2_list, r3_list, r4_list = fastq_record(r1), fastq_record(r2), fastq_record(r3), fastq_record(r4)
+            
+            #break while loop
+            if r1_list== ['','','','']:
                 break
             
-            r1_list.append(r1_line1)
-            r2_list.append(r2_line1)
-            r3_list.append(r3_line1)
-            r4_list.append(r3_line1)
-            
-            r1_list.append(r1.readline().strip())
-            r2_list.append(r2.readline().strip())
-            r3_list.append(r3.readline().strip())
-            r4_list.append(r4.readline().strip())
-
-            r1_list.append(r1.readline().strip())
-            r2_list.append(r2.readline().strip())
-            r3_list.append(r3.readline().strip())
-            r4_list.append(r4.readline().strip())
-
-            r1_list.append(r1.readline().strip())
-            r2_list.append(r2.readline().strip())
-            r3_list.append(r3.readline().strip())
-            r4_list.append(r4.readline().strip())
-
-            #print(r1_list)
-            #print(r2_list)
-            #print(r3_list)
-            #print(r4_list)
+            #set index to check against
             index = r2_list[1]
-            reverse_comp = rev_comp(r3_list[1])
+            #reverst compliment second index to see if it matches index1
+            
+            reverse_comp = rev_comp(r3_list[1], nt_dict)
+            
             #add in qscore filtering if needed right here
-
+            
+            #check if indexes in index set. write to dict if not
             if index not in index_set or reverse_comp not in index_set:
                 U1.write(f'{r1_list[0]} {index}:{reverse_comp}\n{r1_list[1]}\n{r1_list[2]}\n{r1_list[3]}\n')
                 U2.write(f'{r4_list[0]} {index}:{reverse_comp}\n{r4_list[1]}\n{r4_list[2]}\n{r4_list[3]}\n')
@@ -127,6 +110,7 @@ if __name__ == '__main__':
                 else:
                     unknown_dict[key]=1
             
+            #check if indexes match write to match if they do
             elif index == reverse_comp:
                 fhandles[index][0].write(f'{r1_list[0]} {index}:{reverse_comp}\n{r1_list[1]}\n{r1_list[2]}\n{r1_list[3]}\n')
                 fhandles[index][1].write(f'{r4_list[0]} {index}:{reverse_comp}\n{r4_list[1]}\n{r4_list[2]}\n{r4_list[3]}\n')
@@ -135,6 +119,7 @@ if __name__ == '__main__':
                 else:
                     matched_dict[index]=1
             
+            #check if indexes dont match write to hopped
             elif index != reverse_comp:
                 H1.write(f'{r1_list[0]} {index}:{reverse_comp}\n{r1_list[1]}\n{r1_list[2]}\n{r1_list[3]}\n')
                 H2.write(f'{r4_list[0]} {index}:{reverse_comp}\n{r4_list[1]}\n{r4_list[2]}\n{r4_list[3]}\n')
@@ -144,13 +129,18 @@ if __name__ == '__main__':
                 else:
                     hopped_dict[key]=1
             
+            #check if anything didnt fit those parameters 
+            else:
+                raise Exception("Something is wrong")
+            
             total+=1
             
-                
+    #close all files        
     for key in fhandles:
         fhandles[key][0].close()
         fhandles[key][1].close()
 
+    #calculate some summary statistics for the dictionaries
     matched_pairs = sum(matched_dict.values())
     unknown_pairs = sum(unknown_dict.values())
     hopped_pairs = sum(hopped_dict.values())
@@ -158,7 +148,7 @@ if __name__ == '__main__':
     percent_unknown = unknown_pairs/total*100
     percent_hopped = hopped_pairs /total*100
    
-    
+    #generate new dicitonaries with summary statistics as values for indexes
     index_total_freq = {}
     hopped_total_freq = {}
     for key in matched_dict:
@@ -168,7 +158,7 @@ if __name__ == '__main__':
         hopped_total_freq[key] = (hopped_dict[key], (hopped_dict[key]/hopped_pairs*100), (hopped_dict[key]/total*100))
 
 
-
+    #write these to a nice markdown file (this is disgusting, but couldnt use markdown package. may want to change in future)
     with open('report_demultiplex.md', 'w') as fhw:
         fhw.write(f'Run Report<br>Files Used to Generate Report:<br>{file_1}<br>{file_2}<br>{file_3}<br>{file_4}<br>')
         fhw.write('Run Summary:\n```\n')
